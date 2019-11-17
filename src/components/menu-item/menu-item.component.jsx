@@ -1,9 +1,16 @@
 import React from "react";
 
+//HIGHER ORDER COMPONENT: A f. which takes a component modifying and returning it
+import { withRouter } from "react-router-dom";
+
 import "./menu-item.styles.scss";
 
-const MenuItem = ({ title, imageUrl, size }) => (
-  <div className={`${size} menu-item`}>
+// We have access to 'history' 'match' and 'location' because we're using withRouter
+const MenuItem = ({ title, imageUrl, size, linkUrl, history, match }) => (
+  <div
+    className={`${size} menu-item`}
+    onClick={() => history.push(`${match.url}${linkUrl}`)}
+  >
     <div
       className="background-image"
       style={{ backgroundImage: `url(${imageUrl})` }}
@@ -15,4 +22,5 @@ const MenuItem = ({ title, imageUrl, size }) => (
   </div>
 );
 
-export default MenuItem;
+// withRouter: this way we will get access to these 3 props related with our router: history location and match
+export default withRouter(MenuItem);
