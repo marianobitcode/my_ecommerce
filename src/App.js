@@ -4,12 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import "./App.css";
 
 import HomePage from "./pages/homepage/homepage.component";
-
-const hatsPage = () => (
-  <div>
-    <h1>HATS PAGE</h1>
-  </div>
-);
+import ShopPage from "./pages/shop/shop.component";
 
 class App extends Component {
   render() {
@@ -21,7 +16,7 @@ class App extends Component {
         <Switch>
           {/* 'exact': the path path has to be equal to the url provided */}
           <Route exact path="/" component={HomePage} />
-          <Route path="/shop/hats" component={hatsPage} />
+          <Route path="/shop" component={ShopPage} />
         </Switch>
       </div>
     );
