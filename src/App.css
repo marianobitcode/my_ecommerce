@@ -6,3 +6,8 @@ a {
   text-decoration: none;
   color: black;
 }
+
+/* The element padding margin and border will not affect the element limits or something like that */
+* {
+  box-sizing: border-box;
+}

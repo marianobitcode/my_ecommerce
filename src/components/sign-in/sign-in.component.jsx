@@ -58,12 +58,15 @@ class SignIn extends React.Component {
           />
           {/* <label>Password</label> */}
 
-          {/* <input type="submit" value="Submit form" />*/}
-          <CustomButton type="submit">Sign in</CustomButton>
-          {/* A pop-up window will show all Google account we have */}
-          <CustomButton onClick={signInWithGoogle}>
-            Sign in with Google
-          </CustomButton>
+          <div className="buttons">
+            {/* <input type="submit" value="Submit form" />*/}
+            <CustomButton type="submit">Sign in</CustomButton>
+            {/* A pop-up window will show all Google account we have */}
+            {/* Passing the 'isGoogleSignIn' evaluates to true when the CustomButton component receives it */}
+            <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
+              Sign in with Google
+            </CustomButton>
+          </div>
         </form>
       </div>
     );
