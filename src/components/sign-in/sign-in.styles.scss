@@ -1,0 +1,9 @@
+.sign-in {
+  // 'vw': view width
+  width: 30vw;
+  display: flex;
+  flex-direction: column;
+  .title {
+    margin: 10 px 0;
+  }
+}
