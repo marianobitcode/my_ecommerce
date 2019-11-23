@@ -7,7 +7,7 @@ import Header from "./components/header/header.component";
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
 
 // FIREBASE: To make our app aware that the user has signed up with Google
-import { auth } from "./firebase/firebase.utils";
+import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 
 import "./App.css";
 
@@ -23,11 +23,38 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
   // This is an open subscription
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
-      this.setState({ currentUser: user });
-      console.log(`State of the current user: ${this.state.currentUser}`);
+    // 1st approach
+    // this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
+    // this.setState({ currentUser: user });
+    // console.log(`State of the current user: ${this.state.currentUser}`);
+    // 2nd approach
+    // this.unsubscribeFromAuth = auth.onAuthStateChanged(async user => {
+    //   createUserProfileDocument(user);
+    // });
+
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
+
+        // Here we're checking weather the user exists or not
+        userRef.onSnapshot(snapShot => {
+          this.setState(
+            {
+              currentUser: {
+                // 'snapShot.id' is not in 'snapShot.data' that's why I have to get the information this way
+                id: snapShot.id,
+                ...snapShot.data()
+              }
+            },
+            () => console.log(this.state)
+          );
+        });
+      } else {
+        this.setState({ currentUser: userAuth }); // o sea -> currentUser = null
+      }
     });
   }
+
   // We need to close the open subscription when it ithe app is unmount from the DOM
   componentWillUnmount() {
     this.unsubscribeFromAuth();
