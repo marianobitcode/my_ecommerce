@@ -3,7 +3,7 @@ import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
 
 // FIREBASE
-import { signInWithGoogle } from "../../firebase/firebase.utils";
+import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
 
 import "./sign-in.styles.scss";
 
@@ -17,9 +17,18 @@ class SignIn extends React.Component {
     };
   }
 
-  handleSubmit = event => {
-    event.prevenDefault();
-    this.setState({ email: "", password: "" });
+  handleSubmit = async event => {
+    event.preventDefault();
+    const { email, password } = this.state;
+    try {
+      console.log("here");
+
+      await auth.signInWithEmailAndPassword(email, password);
+      // In case of sucess, we will clear our state
+      this.setState({ email: "", password: "" });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   handleChange = event => {
